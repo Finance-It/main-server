@@ -15,13 +15,13 @@ class Campaign(models.Model):
         validators=[MinValueValidator(500), MaxValueValidator(100000000)]
     )
     status = models.CharField(max_length=32)
-    type = models.CharField(max_length=20)
     pitch = models.TextField()
+    type = models.CharField(max_length=20)
     reward = models.TextField(null=True, blank=True)
     min_investment = models.FloatField(
         validators=[MinValueValidator(100), MaxValueValidator(1000000)]
     )
     end_date = models.DateTimeField()
-    debt_interest = models.FloatField()
-    debt_period = models.IntegerField()
+    debt_interest = models.FloatField(null=True, blank=True)
+    debt_period = models.IntegerField(null=True, blank=True)
 
