@@ -14,6 +14,8 @@ from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from celery.schedules import crontab
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -179,3 +181,5 @@ CELERY_BROKER_URL = "redis://redis"
 DJOSER = {
     'LOGIN_FIELD': 'email',
 }
+
+
