@@ -7,7 +7,7 @@ x-logging:
       max-size: 100m
 
 services:
-  app:
+  app: &app
     build:
       context: .
     ports:
@@ -22,13 +22,13 @@ services:
       - .env.sample
     <<: *default-logging
 
-#  db:
-#    image: postgres:alpine
-#    environment:
-#      - POSTGRES_DB=app
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
-#    <<: *default-logging
+  #  db:
+  #    image: postgres:alpine
+  #    environment:
+  #      - POSTGRES_DB=app
+  #      - POSTGRES_USER=postgres
+  #      - POSTGRES_PASSWORD=postgres
+  #    <<: *default-logging
 
   redis:
     image: redis:alpine
@@ -39,3 +39,21 @@ services:
     env_file: .env.sample
     <<: *default-logging
     restart: always
+
+  #  Distributed Task Queue Worker
+  celery:
+    <<: *app
+    command: sh -c "celery -A app worker --loglevel=info"
+    ports: [ ]
+    depends_on:
+      - redis
+    <<: *default-logging
+
+  #  Celery Beat
+  celery-beat:
+    <<: *app
+    command: sh -c "celery -A app beat --loglevel=info"
+    ports: [ ]
+    depends_on:
+      - redis
+    <<: *default-logging
