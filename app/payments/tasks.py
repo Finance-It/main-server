@@ -16,20 +16,21 @@ razorpay_client = razorpay.Client(auth=(os.environ['RAZORPAY_KEY_ID'],
 @periodic_task(run_every=crontab(minute=0, hour=0))
 def campaign_target_check():
     curr_time = datetime.now(tz=pytz.UTC)
-
-    for campaign in Campaign.objects.filter(end_date__lte=curr_time, ):
-        if campaign.total_amount < campaign.target_amount:
-            print('Generate Refund')
-            generate_refund(campaign)
+    campaings = Campaign.objects.filter(end_date__lte=curr_time, )
+    if campaings.exist:
+        for campaign in campaings:
+            if campaign.total_amount < campaign.target_amount:
+                print('Generate Refund')
+                generate_refund(campaign)
     return
 
 
 def generate_refund(campaign):
-    investments = Investment.objects.filter(campaign=campaign)
-
-    for investor in investments:
-        payment_id = investor.razorpay_payment_id
-        response = razorpay_client.payment.refund(payment_id)
-        investor.razorpay_refund_id = response.id
-        investor.save()
+    investments = Investment.objects.filter(campaign=campaign, status="PAID")
+    if investments.exist:
+        for investment in investments:
+            payment_id = investment.razorpay_payment_id
+            response = razorpay_client.payment.refund(payment_id)
+            investment.razorpay_refund_id = response.id
+            investment.save()
     return
