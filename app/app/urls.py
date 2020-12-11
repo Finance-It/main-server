@@ -45,4 +45,5 @@ urlpatterns = [
         name='schema-redoc'),
     path('__debug__/', include(debug_toolbar.urls)),
     path('admin/', admin.site.urls),
+    path('campaigns/', include('campaign.urls'))
 ]
