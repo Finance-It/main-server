@@ -3,6 +3,15 @@ from rest_framework import serializers
 from campaign.models import Campaign
 
 
+class CampaignCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Campaign
+        fields = ['name', 'business_type', 'account_no', 'ifsc_code',
+                  'beneficiary_name', 'target_amount', 'pitch', 'type',
+                  'reward', 'min_investment', 'end_date', 'debt_interest',
+                  'debt_period']
+
+
 class CampaignAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
@@ -11,8 +20,12 @@ class CampaignAdminSerializer(serializers.ModelSerializer):
                   'reward', 'min_investment', 'end_date', 'debt_interest',
                   'debt_period']
         extra_kwargs = {
-            "debt_interest": {"required": False},
-            "debt_period": {"required": False},
+            "name": {"read_only": True},
+            "business_type": {"read_only": True},
+            "type": {"read_only": True},
+            "reward": {"read_only": True},
+            "debt_interest": {"read_only": True},
+            "debt_period": {"read_only": True},
         }
 
 

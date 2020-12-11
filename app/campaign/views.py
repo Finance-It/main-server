@@ -4,6 +4,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, \
     RetrieveAPIView
 
 from campaign.models import Campaign
+from campaign.permissions import IsCampaignAdmin, IsUpdateAllowedOrReadOnly
 from campaign.serializers import CampaignAdminSerializer, \
     CampaignListSerializer, CampaignDetailsSerializer
 
@@ -33,4 +34,5 @@ class CampaignRU(RetrieveUpdateAPIView):
     lookup_url_kwarg = 'id'
     queryset = Campaign.objects.all()
     serializer_class = CampaignAdminSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsCampaignAdmin,
+                          IsUpdateAllowedOrReadOnly]
