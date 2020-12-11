@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 #     }
 # }
 DATABASES = {
-  'default': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
@@ -169,4 +169,8 @@ CACHES = {
             "PASSWORD": os.environ.get('REDIS_PASSWORD')
         }
     }
+}
+
+DJOSER = {
+    'LOGIN_FIELD': 'email',
 }
