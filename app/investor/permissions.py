@@ -12,6 +12,6 @@ class IsCampaignActive(BasePermission):
     def has_permission(self, request, view):
         curr_time = datetime.now(tz=pytz.UTC)
         return Campaign.objects.filter(
-            campaign__id=request.data['campaign'],
-            campaign__end_date__gte=curr_time,
+            id=request.data['campaign'],
+            end_date__gte=curr_time,
         ).count() > 0

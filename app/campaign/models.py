@@ -5,6 +5,7 @@ from django.db import models
 
 # Create your models here.
 class Campaign(models.Model):
+    id = models.AutoField(primary_key=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=32)
     business_type = models.CharField(max_length=32)
