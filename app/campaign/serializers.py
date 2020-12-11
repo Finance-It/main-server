@@ -18,7 +18,7 @@ class CampaignAdminSerializer(serializers.ModelSerializer):
         fields = ['name', 'business_type', 'account_no', 'ifsc_code',
                   'beneficiary_name', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
-                  'debt_period']
+                  'debt_period', 'total_amount']
         extra_kwargs = {
             "name": {"read_only": True},
             "business_type": {"read_only": True},
@@ -26,6 +26,7 @@ class CampaignAdminSerializer(serializers.ModelSerializer):
             "reward": {"read_only": True},
             "debt_interest": {"read_only": True},
             "debt_period": {"read_only": True},
+            "total_amount": {"read_only": True},
         }
 
 
@@ -34,7 +35,7 @@ class CampaignListSerializer(serializers.ModelSerializer):
         model = Campaign
         fields = ['name', 'target_amount', 'type',
                   'reward', 'end_date', 'debt_interest',
-                  'debt_period']
+                  'debt_period', 'total_amount']
 
 
 class CampaignDetailsSerializer(serializers.ModelSerializer):
@@ -42,4 +43,4 @@ class CampaignDetailsSerializer(serializers.ModelSerializer):
         model = Campaign
         fields = ['name', 'business_type', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
-                  'debt_period']
+                  'debt_period', 'total_amount']
