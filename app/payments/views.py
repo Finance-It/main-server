@@ -77,6 +77,7 @@ class CallBackInvestmentPayment(APIView):
         if razorpay_invoice_status == 'paid':
             investment = Investment.objects.filter(razorpay_invoice_id=razorpay_invoice_id).first()
             investment.status = 'PAID'
+            investment.razorpay_payment_id = razorpay_payment_id
             investment.save()
             return HttpResponseRedirect(redirect_to='http://0.0.0.0:8000/swagger')
         else:
@@ -105,6 +106,7 @@ class RazorpayWebhook(APIView):
                 razorpay_invoice_id=invoice_id).first()
             if investment.status != 'PAID':
                 investment.status = 'PAID'
+                investment.razorpay_payment_id = payment_entity['id']
                 investment.save()
         else:
             print(event_type)

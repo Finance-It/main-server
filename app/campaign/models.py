@@ -4,6 +4,11 @@ from django.db import models
 
 
 # Create your models here.
+from django.db.models import Sum
+
+from investor.models import Investment
+
+
 class Campaign(models.Model):
     id = models.AutoField(primary_key=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -26,3 +31,7 @@ class Campaign(models.Model):
     debt_interest = models.FloatField(null=True, blank=True)
     debt_period = models.IntegerField(null=True, blank=True)
 
+    @property
+    def total_amount(self):
+        investments = Investment.objects.filter(campaign=self, status='PAID')
+        return investments.aggregate(Sum('amount'))['amount__sum']
