@@ -14,7 +14,7 @@ class Campaign(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=32)
     business_type = models.CharField(max_length=32)
-    account_no = models.IntegerField()
+    account_no = models.CharField(max_length=20)
     ifsc_code = models.CharField(max_length=12)
     beneficiary_name = models.TextField()
     target_amount = models.FloatField(
