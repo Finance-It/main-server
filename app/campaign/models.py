@@ -30,6 +30,11 @@ class Campaign(models.Model):
     end_date = models.DateTimeField()
     debt_interest = models.FloatField(null=True, blank=True)
     debt_period = models.IntegerField(null=True, blank=True)
+    debt_amount_received = models.FloatField(default=0)
+    virtual_acc_no = models.CharField(max_length=20, null=True, blank=True)
+    virtual_acc_name = models.CharField(max_length=40, null=True, blank=True)
+    virtual_acc_ifsc = models.CharField(max_length=20, null=True, blank=True)
+    razorpay_virtual_acc_id = models.CharField(max_length=20, null=True, blank=True)
 
     @property
     def total_amount(self):
