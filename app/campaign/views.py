@@ -1,9 +1,11 @@
 # Create your views here.
 from rest_framework import permissions
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, \
+    RetrieveAPIView
 
 from campaign.models import Campaign
-from campaign.serializers import CampaignAdminSerializer, CampaignListSerializer
+from campaign.serializers import CampaignAdminSerializer, \
+    CampaignListSerializer, CampaignDetailsSerializer
 
 
 class CampaignLC(ListCreateAPIView):
@@ -19,3 +21,16 @@ class CampaignLC(ListCreateAPIView):
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(created_by=user)
+
+
+class CampaignDetails(RetrieveAPIView):
+    lookup_url_kwarg = 'id'
+    queryset = Campaign.objects.all()
+    serializer_class = CampaignDetailsSerializer
+
+
+class CampaignRU(RetrieveUpdateAPIView):
+    lookup_url_kwarg = 'id'
+    queryset = Campaign.objects.all()
+    serializer_class = CampaignAdminSerializer
+    permission_classes = [permissions.IsAuthenticated]
