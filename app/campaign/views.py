@@ -6,7 +6,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, \
 from campaign.models import Campaign
 from campaign.permissions import IsCampaignAdmin, IsUpdateAllowedOrReadOnly
 from campaign.serializers import CampaignAdminSerializer, \
-    CampaignListSerializer, CampaignDetailsSerializer
+    CampaignListSerializer, CampaignDetailsSerializer, CampaignCreateSerializer
 
 
 class CampaignLC(ListCreateAPIView):
@@ -15,7 +15,7 @@ class CampaignLC(ListCreateAPIView):
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
-            return CampaignAdminSerializer
+            return CampaignCreateSerializer
         else:
             return CampaignListSerializer
 

@@ -46,6 +46,7 @@ urlpatterns = [
     path('__debug__/', include(debug_toolbar.urls)),
     path('admin/', admin.site.urls),
     path('campaigns/', include('campaign.urls')),
-    path('investments/', include('investor.urls'))
+    path('investments/', include('investor.urls')),
+    path('payments/', include('payments.urls')),
 
 ]

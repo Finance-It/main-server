@@ -9,6 +9,7 @@ class Investment(models.Model):
     STATUSES = [
         ('PAID', 'PAID'),
         ('PENDING', 'PENDING'),
+        ('INITIATED', 'PAYMENT LINK GENERATED'),
         ('NOTPAID', 'NOTPAID')
     ]
 
@@ -20,3 +21,5 @@ class Investment(models.Model):
     )
     status = models.CharField(max_length=20, choices=STATUSES,
                               default='PENDING')
+    razorpay_invoice_id = models.CharField(max_length=20, null=True)
+    razorpay_payment_link = models.CharField(max_length=100, null=True)
