@@ -13,6 +13,7 @@ class Investment(models.Model):
         ('NOTPAID', 'NOTPAID')
     ]
 
+    id = models.AutoField(primary_key=True)
     investor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     campaign = models.ForeignKey(Campaign, on_delete=models.SET_NULL,
                                  null=True)

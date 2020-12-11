@@ -4,13 +4,14 @@ FROM python:3-alpine
 #immediately dumped to the stream instead of being buffered.
 ENV PYTHONUNBUFFERED 1
 
+# Install system dependencies
 RUN apk update
-
-# Install all dependencies
-COPY ./app/requirements.txt /requirements.txt
 RUN apk add --update --no-cache postgresql-client
 RUN apk add --update --no-cache --virtual .tmp-build-deps \
       gcc libc-dev linux-headers postgresql-dev libffi-dev
+
+# Install Python dependencies
+COPY ./app/requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 RUN apk del .tmp-build-deps
 

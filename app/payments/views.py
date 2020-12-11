@@ -1,17 +1,23 @@
 # Create your views here.
+import json
 import os
 
+import razorpay as razorpay
 import requests
 from django.http import JsonResponse, HttpResponseRedirect
+from razorpay.errors import SignatureVerificationError
 from requests.auth import HTTPBasicAuth
+from rest_framework import permissions
 from rest_framework.views import APIView
 
 from investor.models import Investment
+from payments.permissions import IsInvestorOfInvestment
 from payments.utils import verify_signature
 
 
-# TODO: Add permissions
 class InvestmentPayment(APIView):
+    permission_classes = [permissions.IsAuthenticated, IsInvestorOfInvestment]
+
     def post(self, request, id):
         investments = Investment.objects.filter(pk=id)
         if not investments.exists():
@@ -25,7 +31,7 @@ class InvestmentPayment(APIView):
                 "amount": int(investment.amount * 100),
                 "description": "Payment Link for InvestorId {} campaignId {}".format(
                     investment.investor.id, investment.campaign.id),
-                "callback_url": 'http://0.0.0.0:8000/payments/callbacks/investments/1',
+                "callback_url": 'http://0.0.0.0:8000/payments/callbacks/investments',
                 "callback_method": 'get'
             }
             auth = HTTPBasicAuth(os.environ['RAZORPAY_KEY_ID'],
@@ -41,8 +47,13 @@ class InvestmentPayment(APIView):
                 "link": payment['short_url']
             })
         else:
-            return JsonResponse({"details": "Payment already initiated / completed"},
-                                status=400)
+            return JsonResponse(
+                {"details": "Payment already initiated / completed"},
+                status=400)
+
+
+razorpay_client = razorpay.Client(auth=(os.environ['RAZORPAY_KEY_ID'],
+                                  os.environ['RAZORPAY_KEY_SECRET']))
 
 
 class CallBackInvestmentPayment(APIView):
@@ -71,3 +82,31 @@ class CallBackInvestmentPayment(APIView):
         else:
             return JsonResponse({"details": "Payment failed"},
                                 status=400)
+
+
+# WebHooks:
+
+class RazorpayWebhook(APIView):
+    def post(self, request):
+        # Verify razorpay sign
+        try:
+            razorpay_client.utility.verify_webhook_signature(request.body.decode(), request.headers.get('x-razorpay-signature', ''), 'secretbc')
+        except SignatureVerificationError:
+            return JsonResponse({"details": "Rejected"})
+
+        payload = json.loads(request.body.decode())
+        event_type = payload['event']
+
+        if event_type == 'payment.captured':
+            payment_entity = payload['payload']['payment']['entity']
+            invoice_id = payment_entity['invoice_id']
+
+            investment = Investment.objects.filter(
+                razorpay_invoice_id=invoice_id).first()
+            if investment.status != 'PAID':
+                investment.status = 'PAID'
+                investment.save()
+        else:
+            print(event_type)
+
+        return JsonResponse({})

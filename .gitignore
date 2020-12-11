@@ -130,3 +130,6 @@ dmypy.json
 app/db.sqlite3
 .idea
 pythonenv3.8/
+
+
+**/migrations

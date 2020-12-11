@@ -8,7 +8,7 @@ from investor.models import Investment
 class InvestmentCreateSerializers(serializers.ModelSerializer):
     class Meta:
         model = Investment
-        fields = ['campaign', 'amount']
+        fields = ['id', 'campaign', 'amount']
 
 
 class InvestmentListSerializers(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class InvestmentListSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Investment
-        fields = ['campaign', 'amount', 'status']
+        fields = ['id', 'campaign', 'amount', 'status']
         depth = 2
 
 
@@ -25,5 +25,5 @@ class InvestmentDetailSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Investment
-        fields = ['campaign', 'amount', 'status']
+        fields = ['id', 'campaign', 'amount', 'status', 'razorpay_payment_link']
         depth = 2
