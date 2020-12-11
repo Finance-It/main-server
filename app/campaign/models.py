@@ -22,6 +22,7 @@ class Campaign(models.Model):
     )
     status = models.CharField(max_length=32)
     pitch = models.TextField()
+    razorpay_linked_account_id = models.CharField(max_length=20, null=True, blank=True)
     type = models.CharField(max_length=20)
     reward = models.TextField(null=True, blank=True)
     min_investment = models.FloatField(
@@ -39,4 +40,4 @@ class Campaign(models.Model):
     @property
     def total_amount(self):
         investments = Investment.objects.filter(campaign=self, status='PAID')
-        return investments.aggregate(Sum('amount'))['amount__sum']
+        return investments.aggregate(Sum('amount'))['amount__sum'] or 0
