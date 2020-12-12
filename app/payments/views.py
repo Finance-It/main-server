@@ -35,7 +35,7 @@ class InvestmentPayment(APIView):
                 "amount": int(investment.amount * 100),
                 "description": "Payment Link for InvestorId {} campaignId {}".format(
                     investment.investor.id, investment.campaign.id),
-                "callback_url": 'http://0.0.0.0:8000/payments/callbacks/investments',
+                "callback_url": '{}/payments/callbacks/investments'.format(os.environ.get('BASE_URL', 'http://localhost:8000')),
                 "callback_method": 'get'
             }
             auth = HTTPBasicAuth(os.environ['RAZORPAY_KEY_ID'],
@@ -160,7 +160,7 @@ class CallBackInvestmentPayment(APIView):
             investment.razorpay_payment_id = razorpay_payment_id
             investment.save()
             return HttpResponseRedirect(
-                redirect_to='http://0.0.0.0:8000/swagger')
+                redirect_to=os.environ.get('PAYMENT_SUCCESS_URL', 'http://0.0.0.0:8000/swagger'))
         else:
             return JsonResponse({"details": "Payment failed"},
                                 status=400)
