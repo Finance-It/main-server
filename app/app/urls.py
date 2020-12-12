@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
+
 import debug_toolbar
 from django.conf.urls import url
 from django.contrib import admin
@@ -20,6 +22,8 @@ from django.urls import path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+
+from app.views import redirect_to_swagger
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -32,6 +36,7 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
+    url=os.environ.get('BASE_URL', 'https://api.financeit.cf')
 )
 
 urlpatterns = [
@@ -48,5 +53,5 @@ urlpatterns = [
     path('campaigns/', include('campaign.urls')),
     path('investments/', include('investor.urls')),
     path('payments/', include('payments.urls')),
-
+    path('', redirect_to_swagger)
 ]
