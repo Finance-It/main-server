@@ -16,7 +16,7 @@ class InvestmentListSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Investment
-        fields = ['id', 'campaign', 'amount', 'status']
+        fields = ['id', 'campaign', 'amount', 'status', 'razorpay_payment_link']
         depth = 2
 
 
