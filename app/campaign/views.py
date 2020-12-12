@@ -1,7 +1,7 @@
 # Create your views here.
 from rest_framework import permissions
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, \
-    RetrieveAPIView
+    RetrieveAPIView, ListAPIView
 
 from campaign.models import Campaign
 from campaign.permissions import IsCampaignAdmin, IsUpdateAllowedOrReadOnly
@@ -38,7 +38,7 @@ class CampaignRU(RetrieveUpdateAPIView):
                           IsUpdateAllowedOrReadOnly]
 
 
-class MyCampaign(ListCreateAPIView):
+class MyCampaign(ListAPIView):
     serializer_class = CampaignDetailsSerializer
     permission_classes = [permissions.IsAuthenticated, ]
 
