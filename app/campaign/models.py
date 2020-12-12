@@ -32,7 +32,7 @@ class Campaign(models.Model):
     target_amount = models.FloatField(
         validators=[MinValueValidator(500), MaxValueValidator(100000000)]
     )
-    status = models.CharField(max_length=32)
+    status = models.CharField(max_length=32, default='ACTIVE')
     pitch = models.TextField()
     type = models.CharField(max_length=20)
     reward = models.TextField(null=True, blank=True)

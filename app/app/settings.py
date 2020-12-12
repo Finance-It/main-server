@@ -178,8 +178,8 @@ CACHES = {
 
 CELERY_BROKER_URL = "redis://redis"
 
-DJOSER = {
-    'LOGIN_FIELD': 'email',
-}
+# DJOSER = {
+#     'LOGIN_FIELD': 'email',
+# }
 
 

@@ -27,11 +27,11 @@ from app.views import redirect_to_swagger
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Django Rest Starter API",
+        title="Finance It API",
         default_version='v1',
-        description="Test description",
+        description="REST API for Finance It",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
+        contact=openapi.Contact(email="executeit00@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,

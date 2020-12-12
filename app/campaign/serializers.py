@@ -6,7 +6,7 @@ from campaign.models import Campaign
 class CampaignCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'business_type', 'account_no', 'ifsc_code',
+        fields = ['id', 'name', 'business_name', 'business_type', 'account_no', 'ifsc_code',
                   'beneficiary_name', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
                   'debt_period']
@@ -15,7 +15,7 @@ class CampaignCreateSerializer(serializers.ModelSerializer):
 class CampaignAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'business_type', 'account_no', 'ifsc_code',
+        fields = ['id', 'name', 'business_name', 'business_type', 'account_no', 'ifsc_code',
                   'beneficiary_name', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
                   'debt_period', 'total_amount']
@@ -33,7 +33,7 @@ class CampaignAdminSerializer(serializers.ModelSerializer):
 class CampaignListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'target_amount', 'type',
+        fields = ['id', 'name', 'business_name', 'target_amount', 'type',
                   'reward', 'end_date', 'debt_interest',
                   'debt_period', 'total_amount']
 
@@ -41,6 +41,6 @@ class CampaignListSerializer(serializers.ModelSerializer):
 class CampaignDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'business_type', 'target_amount', 'pitch', 'type',
+        fields = ['id', 'name', 'business_name', 'business_type', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
                   'debt_period', 'total_amount']
