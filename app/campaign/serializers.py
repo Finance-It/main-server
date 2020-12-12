@@ -6,7 +6,8 @@ from campaign.models import Campaign
 class CampaignCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'business_name', 'business_type', 'account_no', 'ifsc_code',
+        fields = ['id', 'name', 'business_name', 'business_type', 'account_no',
+                  'ifsc_code',
                   'beneficiary_name', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
                   'debt_period']
@@ -15,10 +16,13 @@ class CampaignCreateSerializer(serializers.ModelSerializer):
 class CampaignAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'status', 'business_name', 'business_type', 'account_no', 'ifsc_code',
+        fields = ['id', 'name', 'status', 'business_name', 'business_type',
+                  'account_no', 'ifsc_code',
                   'beneficiary_name', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
-                  'debt_period', 'total_amount', 'virtual_acc_no', 'virtual_acc_name', 'virtual_acc_ifsc']
+                  'debt_period', 'total_amount', 'virtual_acc_no',
+                  'virtual_acc_name', 'virtual_acc_ifsc', 'image_url',
+                  'description']
         extra_kwargs = {
             "name": {"read_only": True},
             "business_type": {"read_only": True},
@@ -41,6 +45,7 @@ class CampaignListSerializer(serializers.ModelSerializer):
 class CampaignDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'business_name', 'business_type', 'target_amount', 'pitch', 'type',
+        fields = ['id', 'name', 'business_name', 'business_type',
+                  'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
                   'debt_period', 'total_amount', 'image_url', 'description']
