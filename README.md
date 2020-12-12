@@ -1,4 +1,4 @@
-# Finance-IT Main server
+# Finance-It Main server
 
 Main server for managing all the services in the project.
 
