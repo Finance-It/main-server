@@ -60,6 +60,42 @@ razorpay_client = razorpay.Client(auth=(os.environ['RAZORPAY_KEY_ID'],
                                         os.environ['RAZORPAY_KEY_SECRET']))
 
 
+class CreatePayoutAcc(APIView):
+    permission_classes = [permissions.IsAuthenticated, IsCampaignAdmin]
+
+    def post(self, request, id):
+        campaigns = Campaign.objects.filter(pk=id)
+        if not campaigns.exists():
+            return JsonResponse({"details": "Not found"}, status=404)
+        campaign = campaigns.first()
+        if campaign.razorpay_virtual_acc_id is None:
+            url = '{}/beta/accounts'.format(os.environ['RAZORPAY_BASE_URL'])
+            data = {
+                "name": '{} {}'.format(campaign.created_by.first_name, campaign.created_by.last_name),
+                "email": campaign.created_by.email,
+                "tnc_accepted": True,
+                "account_details": {
+                    "business_name": campaign.business_name,
+                    "business_type": campaign.business_type
+                },
+                "bank_account": {
+                    "ifsc_code": campaign.ifsc_code,
+                    "beneficiary_name": campaign.beneficiary_name,
+                    "account_number": campaign.account_no
+                }
+            }
+            auth = HTTPBasicAuth(os.environ['RAZORPAY_KEY_ID'],
+                                 os.environ['RAZORPAY_KEY_SECRET'])
+            res = requests.post(url, json=data, auth=auth)
+            payload = res.json()
+            if 'error' in payload:
+                print(payload)
+                return JsonResponse({"details": "Error creating account"}, status=400)
+            campaign.razorpay_payout_acc_id = payload['id']
+            campaign.save()
+            return JsonResponse({"details": "Success", "campaign": model_to_dict(campaign)})
+
+
 class CreateVirtualAccForDebtRepay(APIView):
     permission_classes = [permissions.IsAuthenticated, IsCampaignAdmin]
 

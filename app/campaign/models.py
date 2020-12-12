@@ -1,19 +1,31 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-
-
 # Create your models here.
 from django.db.models import Sum
 
 from investor.models import Investment
 
+BUSINESS_TYPE_CHOICES = [
+    ('private_limited', 'Private Limited'),
+    ('proprietorship', 'Proprietorship'),
+    ('partnership', 'Partnership'),
+    ('individual', 'Individual'),
+    ('public_limited', 'Public Limited'),
+    ('llp', 'LLP'),
+    ('trust', 'Trust'),
+    ('society', 'Society'),
+    ('ngo', 'NGO')
+]
+
 
 class Campaign(models.Model):
     id = models.AutoField(primary_key=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=32)
-    business_type = models.CharField(max_length=32)
+    name = models.CharField(max_length=128)
+    business_name = models.CharField(max_length=128)
+    business_type = models.CharField(max_length=32,
+                                     choices=BUSINESS_TYPE_CHOICES)
     account_no = models.CharField(max_length=20)
     ifsc_code = models.CharField(max_length=12)
     beneficiary_name = models.TextField()
@@ -22,7 +34,6 @@ class Campaign(models.Model):
     )
     status = models.CharField(max_length=32)
     pitch = models.TextField()
-    razorpay_linked_account_id = models.CharField(max_length=20, null=True, blank=True)
     type = models.CharField(max_length=20)
     reward = models.TextField(null=True, blank=True)
     min_investment = models.FloatField(
@@ -35,7 +46,10 @@ class Campaign(models.Model):
     virtual_acc_no = models.CharField(max_length=20, null=True, blank=True)
     virtual_acc_name = models.CharField(max_length=40, null=True, blank=True)
     virtual_acc_ifsc = models.CharField(max_length=20, null=True, blank=True)
-    razorpay_virtual_acc_id = models.CharField(max_length=20, null=True, blank=True)
+    razorpay_virtual_acc_id = models.CharField(max_length=20, null=True,
+                                               blank=True)
+    razorpay_payout_acc_id = models.CharField(max_length=20, null=True,
+                                              blank=True)
 
     @property
     def total_amount(self):

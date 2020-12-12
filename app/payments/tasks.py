@@ -51,7 +51,7 @@ def transfer_to_campaign(campaign):
 
     url = '{}/transfers'.format(os.environ['RAZORPAY_BASE_URL'])
     data = {
-        "account": campaign.razorpay_linked_account_id,
+        "account": campaign.razorpay_payout_acc_id,
         "amount": int(campaign.total_amount * 100),
         "currency": "INR"
     }
