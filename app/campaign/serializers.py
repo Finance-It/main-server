@@ -15,7 +15,7 @@ class CampaignCreateSerializer(serializers.ModelSerializer):
 class CampaignAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'business_name', 'business_type', 'account_no', 'ifsc_code',
+        fields = ['id', 'name', 'status', 'business_name', 'business_type', 'account_no', 'ifsc_code',
                   'beneficiary_name', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
                   'debt_period', 'total_amount']
