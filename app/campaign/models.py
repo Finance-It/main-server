@@ -50,6 +50,8 @@ class Campaign(models.Model):
                                                blank=True)
     razorpay_payout_acc_id = models.CharField(max_length=20, null=True,
                                               blank=True)
+    image_url = models.URLField(null=True)
+    description = models.CharField(max_length=200, null=True)
 
     @property
     def total_amount(self):

@@ -35,7 +35,7 @@ class CampaignListSerializer(serializers.ModelSerializer):
         model = Campaign
         fields = ['id', 'name', 'business_name', 'target_amount', 'type',
                   'reward', 'end_date', 'debt_interest',
-                  'debt_period', 'total_amount']
+                  'debt_period', 'total_amount', 'image_url', 'description']
 
 
 class CampaignDetailsSerializer(serializers.ModelSerializer):
@@ -43,4 +43,4 @@ class CampaignDetailsSerializer(serializers.ModelSerializer):
         model = Campaign
         fields = ['id', 'name', 'business_name', 'business_type', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
-                  'debt_period', 'total_amount']
+                  'debt_period', 'total_amount', 'image_url', 'description']

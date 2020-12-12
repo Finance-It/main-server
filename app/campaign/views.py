@@ -36,3 +36,11 @@ class CampaignRU(RetrieveUpdateAPIView):
     serializer_class = CampaignAdminSerializer
     permission_classes = [permissions.IsAuthenticated, IsCampaignAdmin,
                           IsUpdateAllowedOrReadOnly]
+
+
+class MyCampaign(ListCreateAPIView):
+    serializer_class = CampaignDetailsSerializer
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get_queryset(self):
+        return Campaign.objects.filter(created_by=self.request.user)

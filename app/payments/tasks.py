@@ -20,9 +20,9 @@ logger = get_task_logger(__name__)
 @periodic_task(run_every=crontab())
 def campaign_target_check():
     curr_time = datetime.now(tz=pytz.UTC)
-    campaings = Campaign.objects.filter(end_date__lte=curr_time, )
-    if campaings.exists():
-        for campaign in campaings:
+    campaigns = Campaign.objects.filter(end_date__lte=curr_time, )
+    if campaigns.exists():
+        for campaign in campaigns:
             if campaign.total_amount < campaign.target_amount:
                 logger.info('Generate Refund')
                 generate_refund(campaign)
@@ -48,6 +48,35 @@ def generate_refund(campaign):
 def transfer_to_campaign(campaign):
     if campaign.status != 'ACTIVE':
         return
+
+    # TODO: create a linked account and return account id
+
+    if campaign.razorpay_virtual_acc_id is None:
+        url = '{}/beta/accounts'.format(os.environ['RAZORPAY_BASE_URL'])
+        data = {
+            "name": '{} {}'.format(campaign.created_by.first_name,
+                                   campaign.created_by.last_name),
+            "email": campaign.created_by.email,
+            "tnc_accepted": True,
+            "account_details": {
+                "business_name": campaign.business_name,
+                "business_type": campaign.business_type
+            },
+            "bank_account": {
+                "ifsc_code": campaign.ifsc_code,
+                "beneficiary_name": campaign.beneficiary_name,
+                "account_number": campaign.account_no
+            }
+        }
+        auth = HTTPBasicAuth(os.environ['RAZORPAY_KEY_ID'],
+                             os.environ['RAZORPAY_KEY_SECRET'])
+        res = requests.post(url, json=data, auth=auth)
+        payload = res.json()
+        if 'error' in payload:
+            print(payload)
+            return
+        campaign.razorpay_payout_acc_id = payload['id']
+        campaign.save()
 
     url = '{}/transfers'.format(os.environ['RAZORPAY_BASE_URL'])
     data = {
