@@ -18,7 +18,7 @@ class CampaignAdminSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'status', 'business_name', 'business_type', 'account_no', 'ifsc_code',
                   'beneficiary_name', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
-                  'debt_period', 'total_amount']
+                  'debt_period', 'total_amount', 'virtual_acc_no', 'virtual_acc_name', 'virtual_acc_ifsc']
         extra_kwargs = {
             "name": {"read_only": True},
             "business_type": {"read_only": True},
