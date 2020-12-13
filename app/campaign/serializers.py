@@ -10,7 +10,7 @@ class CampaignCreateSerializer(serializers.ModelSerializer):
                   'ifsc_code',
                   'beneficiary_name', 'target_amount', 'pitch', 'type',
                   'reward', 'min_investment', 'end_date', 'debt_interest',
-                  'debt_period']
+                  'debt_period', 'image_url', 'description']
 
 
 class CampaignAdminSerializer(serializers.ModelSerializer):
