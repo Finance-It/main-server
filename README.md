@@ -43,5 +43,5 @@ API documentation is done using swagger visit **`/swagger`** for API documentati
 
 ## System Architecture
 
-![System Architecture](./assests/arch1.png)
+![System Architecture](./assests/arch.png)
 
