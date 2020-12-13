@@ -22,7 +22,7 @@ class CampaignAdminSerializer(serializers.ModelSerializer):
                   'reward', 'min_investment', 'end_date', 'debt_interest',
                   'debt_period', 'total_amount', 'virtual_acc_no',
                   'virtual_acc_name', 'virtual_acc_ifsc', 'image_url',
-                  'description']
+                  'description', 'debt_amount_received']
         extra_kwargs = {
             "name": {"read_only": True},
             "business_type": {"read_only": True},
