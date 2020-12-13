@@ -43,5 +43,5 @@ API documentation is done using swagger visit **`/swagger`** for API documentati
 
 ## System Architecture
 
-![System Architecture](./assests/arch.png)
+![System Architecture](https://github.com/Finance-It/Finance-It/raw/main/assets/arch.png)
 
