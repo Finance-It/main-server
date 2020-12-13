@@ -40,6 +40,7 @@ docker-compose run app sh -c "command here"
 
 ## API Documentation
 API documentation is done using swagger visit **`/swagger`** for API documentation
+It is also hosted at https://api.financeit.ml/swagger
 
 ## System Architecture
 
